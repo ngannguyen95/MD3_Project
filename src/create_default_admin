@@ -1,0 +1,7 @@
+      RoleServiceIMPL roleServiceIMPL = new RoleServiceIMPL();
+              Set<Role> set = new HashSet<>();
+              set.add(roleServiceIMPL.findByAll(RoleName.ADMIN));
+              List<User> userList = new ArrayList<>();
+              userList.add(new User(1, "admin", "admin@gmail.com", "admin",set, true));
+              new Config<User>().writerFile("src/ra/database/user.txt", userList);
+              System.out.println(userList);
