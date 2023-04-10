@@ -3,10 +3,12 @@ package ra.service.user;
 import ra.config.Config;
 import ra.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceIMPL implements IUserService {
-    List<User> userList = new Config<User>().readFromFile(Config.PATH_USER);
+    private List<User> userList = new Config<User>().readFromFile(Config.PATH_USER);
+
 
     @Override
     public List<User> findAll() {
@@ -15,12 +17,12 @@ public class UserServiceIMPL implements IUserService {
 
     @Override
     public void save(User user) {
-        if (findById(user.getUserId())==null){
+        if (findById(user.getUserId()) == null) {
             userList.add(user);
-        }else {
+        } else {
             for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getUserId() == user.getUserId()){
-                    userList.set(i,user);
+                if (userList.get(i).getUserId() == user.getUserId()) {
+                    userList.set(i, user);
                 }
             }
         }
@@ -29,10 +31,9 @@ public class UserServiceIMPL implements IUserService {
 
     @Override
     public User findById(int id) {
-        for (User u : userList
-             ) {
-            if (u.getUserId()==id){
-                return  u;
+        for (User u : userList) {
+            if (u.getUserId() == id) {
+                return u;
             }
         }
         return null;
@@ -63,14 +64,14 @@ public class UserServiceIMPL implements IUserService {
         return false;
     }
 
-    List<User> userLogin = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
 
     @Override
     public boolean checkLogin(String userName, String password) {
+        List<User> users = new ArrayList<>();
         for (User user : userList) {
             if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
-                userLogin.add(user);
-                new Config<User>().writerFile(Config.PATH_USER_LOGIN, userLogin);
+                users.add(user);
+                new Config<User>().writerFile(Config.PATH_USER_LOGIN, users);
                 return true;
             }
         }
@@ -79,22 +80,39 @@ public class UserServiceIMPL implements IUserService {
 
     @Override
     public User getCurrentUser() {
-        if (userLogin.size() != 0) {
-            User userCurrent = userLogin.get(0);
-            return userCurrent;
+        List<User> userLogin = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
+        if (userLogin.size() == 0) {
+            return null;
+        } else {
+            User user = userLogin.get(0);
+            return user;
         }
-        return null;
     }
 
     @Override
     public void updateUserLogin(User user) {
+        List<User> userLogin = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
         userLogin.set(0, user);
+        save(user);
         new Config<User>().writerFile(Config.PATH_USER_LOGIN, userLogin);
     }
 
     @Override
     public void logOut() {
+        List<User> userLogin = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
         userLogin.remove(0);
         new Config<User>().writerFile(Config.PATH_USER_LOGIN, userLogin);
     }
+    @Override
+    public void changeStatusUser(int id) {
+        for (User u:userList) {
+           if (u.getUserId()==id){
+               u.setUserStatus(!u.isUserStatus());
+               new Config<User>().writerFile(Config.PATH_USER,userList);
+               break;
+           }
+        }
+    }
+
+
 }

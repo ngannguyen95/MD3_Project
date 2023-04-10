@@ -23,8 +23,8 @@ public class Main {
             System.out.println("----------------------------  TRANG CHỦ ---------------------------");
             System.out.println("1. Đăng ký      " +
                     "2.Đăng nhập      " +
-                    "3.Tìm kiếm sản phẩm     " +
-                    "4. Sản phẩm     " );
+                    "3.Xem sản phẩm     " +
+                    "4.Tìm kiếm sản phẩm     " );
             System.out.println(" Nhập vào lựa chọn: ");
             int choice = InputMethod.getInteger();
             switch (choice) {
@@ -35,12 +35,16 @@ public class Main {
                     userView.formLogin();
                     break;
                 case 3:
+                    new ProductView().showFormProduct();
                     break;
                 case 4:
-                    new ProductView().showFormProduct();
+                    new ProductView().formSearchProduct();
                     break;
                 case 5:
                     System.exit(0);
+                    break;
+                case 6:
+                    new UserView().showUser();
                     break;
                 default:
                     System.out.println("Vui lòng nhập  lại!!!");
@@ -52,6 +56,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main.generalShop();
-    }
 
+//        System.out.println(new Config<User>().readFromFile("src/ra/database/user_login.txt"));
+    }
 }

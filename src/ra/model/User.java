@@ -12,30 +12,32 @@ public class User implements Serializable {
     private String password;
     private String email;
     private String fullName;
-    //    private boolean permission;
     private boolean userStatus;
     private Set<Role> roles = new HashSet<>();
     private List<Cart> cartList = new ArrayList<>();
 
-    public User(int userId, String userName, String password, String email, String fullName, boolean userStatus, Set<Role> roles) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.fullName = fullName;
-        this.userStatus = userStatus;
-        this.roles = roles;
-    }
 
-    public User(int userId, String userName,String fullName, String email, String password, Set<Role> roleSet, boolean b) {
+    public User(int userId, String userName, String fullName, String email, String password, Set<Role> roleSet, boolean userStatus, List<Cart> cartList) {
         this.userId = userId;
         this.userName = userName;
-        this.fullName=fullName;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.roles = roleSet;
-
+        this.cartList = cartList;
+        this.userStatus = userStatus;
     }
+
+    public User(int userId, String userName, String fullName, String email, String password, Set<Role> roleSet, boolean stt) {
+        this.userId = userId;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.roles = roleSet;
+        this.userStatus = stt;
+    }
+
 
     public List<Cart> getCartList() {
         return cartList;
@@ -104,10 +106,13 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return
-                "               Thông tin cá nhân                    \n"+
-                "    Id     Name            Password        Email         FullName\n"+
-                "    "+userId+"    "+userName+"    "+password+"    "+email+"    "+fullName+
-                "\n ---------------------------------------------------------------------";
+                "Id: " + userId +
+                        "\nTên người dùng:  " + userName +
+                        "\nMật khẩu:  " + password +
+                        "\nEmail:   " + email +
+                        "\nTên đầy đủ:   " + fullName +
+                        "\nStatus:   " + userStatus +
+                        "\n ---------------------------------------------------------------------\n";
 
     }
 

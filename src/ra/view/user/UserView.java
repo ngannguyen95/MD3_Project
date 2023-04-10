@@ -87,9 +87,11 @@ public class UserView {
                 break;
             }
         }
+
     }
 
     public void formLogin() {
+
         System.out.println("-----------------  LOGIN ------------------");
         SignInDTO signInDTO = new SignInDTO();
         String userName;
@@ -125,15 +127,85 @@ public class UserView {
                 signInDTO.setPassword(InputMethod.getString());
             } else {
                 System.out.println(" Đăng nhập thành công.");
-                new Profile();
+                new Profile().Profile();
                 break;
             }
         }
+
     }
 
     public void logOut() {
         userController.logOut();
-       Main.generalShop();
+        Main.generalShop();
     }
 
+    public void showUser() {
+        for (User user : userController.findAll()) {
+            System.out.println(user);
+        }
+    }
+
+    public void updateFormUser() {
+        User userLogin = userController.getUserLogin();
+        String userName;
+        while (true) {
+            System.out.println("Tên người dùng: ");
+            userName = InputMethod.getString();
+            if (Validate.checkUserName(userName)) {
+                break;
+            } else {
+                System.err.println("Tên người dùng không hợp lệ,phải có 4 kí tự trở lên");
+            }
+        }
+        userLogin.setUserName(userName);
+        String password;
+        while (true) {
+            System.out.print("Mật khẩu : ");
+            password = InputMethod.getString();
+            if (Validate.checkPassword(password)) {
+                break;
+            } else {
+                System.err.println("Mật khẩu không hợp lệ,không được chứa khoảng trắng và 7 kí tự trở lên");
+            }
+        }
+        userLogin.setPassword(password);
+        String email;
+        while (true) {
+            System.out.println("Nhập vào email: ");
+            email = InputMethod.getString();
+            if (Validate.checkEmail(email)) {
+                break;
+            } else
+                System.err.println("Email không hợp lệ, vui lòng nhập lại");
+        }
+        userLogin.setEmail(email);
+        String fullName;
+        while (true) {
+            System.out.println("Nhập đầy đủ họ tên: ");
+            fullName = InputMethod.getString();
+            if (Validate.checkUserFullName(fullName)) {
+                break;
+            } else {
+                System.err.println("Tên không hợp lệ!!");
+            }
+        }
+        userLogin.setFullName(fullName);
+        userController.updateUserLogin(userLogin);
+    }
+
+    public void changeStatusUser() {
+        System.out.println("Nhập vào id người dùng muốn thay đổi: ");
+        while (true) {
+            int id = InputMethod.getInteger();
+            if (userController.findById(id) == null) {
+                System.out.println("Id không tồn tại!!Vui lòng nhập lại..");
+            } else {
+                userController.changeStatus(id);
+                break;
+            }
+        }
+    }
+    public User showUseLogin(){
+        return userController.getUserLogin();
+    }
 }

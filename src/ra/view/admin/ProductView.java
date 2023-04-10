@@ -38,8 +38,8 @@ public class ProductView {
                 case 4:
                     formDeleteProduct();
                     break;
-//                case 5:
-//                    new AdminPage();
+                case 5:
+                    new AdminPage();
                 default:
                     System.out.println("Vui lòng nhập lại!!!");
                     break;
@@ -50,15 +50,15 @@ public class ProductView {
 
     public void showFormProduct() {
         System.out.println("------------------- PRODUCT ----------------------");
-        System.out.println("     ID      PRODUCT NAME      PRICE     CATERORY");
+        System.out.println("     ID      PRODUCT NAME      PRICE     CATERORY     STATUS");
         for (Product product : productList) {
-            System.out.println("     " + product.getId() + "      " + product.getProductName() + "      " + product.getPrice() + "    " + product.getCategory().getCategoryName());
+            System.out.println("     " + product.getId() + "      " + product.getProductName() + "      " + product.getPrice() + "    " + product.getCategory().getCategoryName()+"     "+product.isStatus());
         }
         System.out.println("---------------------------------------------------\n");
     }
 
     public void formCreateProduct() {
-        while (true) {
+
             Product product = new Product();
             if (productList.size() == 0) {
                 product.setId(1);
@@ -81,9 +81,9 @@ public class ProductView {
             }
             productController.createProduct(product);
             System.out.println("Thêm vào thành công.");
-            new ProductView();
 
-        }
+        new ProductView();
+
     }
 
     public void formUpdateProduct() {
@@ -125,5 +125,14 @@ public class ProductView {
         System.out.println("Xóa thành công..");
     }
 
-
+    public void formSearchProduct() {
+        System.out.println("Nhập vào id sản phẩm: ");
+        int id=InputMethod.getInteger();
+        if (productController.detailProduct(id) == null) {
+            System.err.println("Id không tồn tại.");
+            return;
+        }else {
+            System.out.println(productController.detailProduct(id));
+        }
+    }
 }

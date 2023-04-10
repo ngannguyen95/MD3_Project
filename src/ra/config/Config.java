@@ -10,9 +10,11 @@ public class Config<T> {
     public static final String PATH_PRODUCT = "src/ra/database/product.txt";
     public static final String PATH_USER = "src/ra/database/user.txt";
     public static final String PATH_USER_LOGIN = "src/ra/database/user_login.txt";
+    public static final String PATH_INVOICE="src/ra/database/invoice.txt";
 
     // phương thức đọc file
     public List<T> readFromFile(String pathFile) {
+
         List<T> tList = new ArrayList<>();
         try {
             File file = new File(pathFile);

@@ -64,12 +64,11 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product[" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", price=" + price +
-                ", category=" + category +
-                ", status=" + status +
-                ']';
+        return "------------------" +
+                "\nId:   " + id +
+                "\nTên sản phẩm:   " + productName +
+                "\nGiá:   " + price +
+                "\nTên danh mục:   " + category.getCategoryName()
+                ;
     }
 }

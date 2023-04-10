@@ -9,10 +9,9 @@ import ra.service.user.UserServiceIMPL;
 import java.util.List;
 
 public class CartServiceIMPL implements ICartService {
-    IUserService userService = new UserServiceIMPL();
-    List<User> user = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
-
-    List<Cart> cartList = user.get(0).getCartList();
+    public static List<User> uses = new UserServiceIMPL().findAll();
+    public static User userLogin = new UserServiceIMPL().getCurrentUser();
+    public static List<Cart> cartList = userLogin.getCartList();
 
     @Override
     public List<Cart> findAll() {
@@ -22,16 +21,23 @@ public class CartServiceIMPL implements ICartService {
     //thêm và sửa
     @Override
     public void save(Cart cart) {
-        if (cartList.size() == 0) {
-            cartList.add(cart);
-        } else {
-            for (int i = 0; i < cartList.size(); i++) {
-                if (cartList.get(i).getProduct().getId() == cart.getProduct().getId()) {
-                    cartList.set(i, cart);
-                }
+        boolean check = false;
+        for (int i = 0; i < cartList.size(); i++) {
+            if (cartList.get(i).getProduct().getId() == cart.getProduct().getId()) {
+                cartList.get(i).setQuantity((cart.getQuantity() + cartList.get(i).getQuantity()));
+                check = true;
             }
         }
-        new Config<User>().writerFile(Config.PATH_USER_LOGIN, user);
+        if (!check) {
+            cartList.add(cart);
+        }
+        for (User u : uses) {
+            if (u.getUserId() == uses.get(0).getUserId()) {
+                u.setCartList(cartList);
+            }
+        }
+        new Config<User>().writerFile(Config.PATH_USER_LOGIN, uses);
+        new Config<User>().writerFile(Config.PATH_USER, uses);
     }
 
     // tìm theo id product
@@ -50,10 +56,10 @@ public class CartServiceIMPL implements ICartService {
         for (Cart cart : cartList) {
             if (cart.getProduct().getId() == id) {
                 cartList.remove(cart);
-                new Config<User>().writerFile(Config.PATH_USER_LOGIN, user);
+                new Config<User>().writerFile(Config.PATH_USER_LOGIN, uses);
+                new Config<User>().writerFile(Config.PATH_USER, uses);
             }
         }
     }
-
 
 }

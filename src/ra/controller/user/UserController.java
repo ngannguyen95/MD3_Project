@@ -58,21 +58,40 @@ public class UserController {
 
     //gửi thông điệp đến frontend
     public Responsemessage login(SignInDTO sign) {
+
         if (userService.checkLogin(sign.getUserName(), sign.getPassword())) {
+            System.out.println(userService.checkLogin(sign.getUserName(), sign.getPassword()));
             return new Responsemessage("login_success");
+
         } else {
+            System.out.println(userService.checkLogin(sign.getUserName(), sign.getPassword()));
             return new Responsemessage("login_failed");
         }
+
     }
 
     public User getUserLogin() {
         return userService.getCurrentUser();
     }
-    public void updateUserLogin(User user){
+
+    public void updateUserLogin(User user) {
         userService.updateUserLogin(user);
     }
-    public void logOut(){
+
+    public void logOut() {
         userService.logOut();
+    }
+
+    public List<User> findAll() {
+        return userService.findAll();
+    }
+
+    public void changeStatus(int id) {
+        userService.changeStatusUser(id);
+    }
+
+    public User findById(int id) {
+        return userService.findById(id);
     }
 
 }

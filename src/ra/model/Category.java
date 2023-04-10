@@ -32,9 +32,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "Category[" +
-                "id=" + id +
-                ", categoryName='" + categoryName + '\'' +
-                ']';
+        return
+                "Id: " + id + "    Tên danh mục: " + categoryName;
     }
 }
