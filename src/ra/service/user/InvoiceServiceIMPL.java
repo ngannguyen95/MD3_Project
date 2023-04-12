@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceServiceIMPL implements IInvoice {
-    public static User userLogin = new UserServiceIMPL().getCurrentUser();
-    public static List<Invoice> invoiceList = new Config<Invoice>().readFromFile(Config.PATH_INVOICE);
+    public  User userLogin = new UserServiceIMPL().getCurrentUser();
+    public  List<Invoice> invoiceList = new Config<Invoice>().readFromFile(Config.PATH_INVOICE);
 
 
     @Override
@@ -52,9 +52,8 @@ public class InvoiceServiceIMPL implements IInvoice {
     @Override
     public List<Invoice> fillAllInvoiceByUserLogin() {
         List<Invoice> list = new ArrayList<>();
-        for (Invoice invoice:invoiceList
-             ) {
-            if (invoice.getInvoiceUser().getUserId()== userLogin.getUserId()){
+        for (Invoice invoice:invoiceList) {
+            if (invoice.getUserId()== userLogin.getUserId()){
                 list.add(invoice);
             }
         }

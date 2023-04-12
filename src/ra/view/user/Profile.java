@@ -22,33 +22,34 @@ public class Profile {
         if (roleList.get(0).getName() == RoleName.ADMIN) {
             new AdminPage().AdminPage();
         } else {
-            while (true) {
-                System.out.println("------------------   Xin chào " + user.getFullName() + "---------------");
-                System.out.print("1. Thông tin cá nhân     ");
-                System.out.print("2. Giỏ hàng     ");
-                System.out.print("3.Lịch sử    ");
-                System.out.println("4. Đăng xuất       ");
-                System.out.println("Nhập vào lựa chọn:    ");
-                int choice = InputMethod.getInteger();
-                switch (choice) {
-                    case 1:
-                        inforUser();
-                        break;
-                    case 2:
-                        inforCart();
-                        break;
-                    case 3:
-                        //lịch sử
-                        new InvoiceView().showHistory();
-                        break;
-                    case 4:
-                        new UserView().logOut();
-                        break;
-                    default:
-                        System.out.println("Vui lòng nhập lại");
-                        break;
+                while (true) {
+                    System.out.println("------------------   Xin chào " + user.getFullName() + "---------------");
+                    System.out.print("1. Thông tin cá nhân     ");
+                    System.out.print("2. Giỏ hàng     ");
+                    System.out.print("3.Lịch sử    ");
+                    System.out.println("4. Đăng xuất       ");
+                    System.out.println("Nhập vào lựa chọn:    ");
+                    int choice = InputMethod.getInteger();
+                    switch (choice) {
+                        case 1:
+                            inforUser();
+                            break;
+                        case 2:
+                            inforCart();
+                            break;
+                        case 3:
+                            //lịch sử
+                            new InvoiceView().showHistory();
+                            break;
+                        case 4:
+                            new UserView().logOut();
+                            break;
+                        default:
+                            System.out.println("Vui lòng nhập lại");
+                            break;
+                    }
                 }
-            }
+
         }
     }
 
@@ -71,7 +72,7 @@ public class Profile {
                     user = userController.getUserLogin();
                     break;
                 case 3:
-                    Profile();
+                    new Profile().Profile();
                     break;
                 case 4:
                     new InvoiceView().showHistory();

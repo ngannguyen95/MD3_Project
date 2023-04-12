@@ -14,18 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartView {
-    private static CartController cartController = new CartController();
-    private static List<Cart> cartList = new UserController().getUserLogin().getCartList();
-    private static ProductController productController = new ProductController();
-
-    User userLogin = new UserController().getUserLogin();
-    private static List<Product> productList = productController.getListProduct();
-
+    private CartController cartController = new CartController();
+    private List<Cart> cartList = cartController.getListCart();
+    private  ProductController productController = new ProductController();
+    private  List<Product> productList = productController.getListProduct();
 
     public void showFormCart() {
         System.out.println("----------- Thông tin giỏ hàng ------------ ");
         float total = 0;
-        for (Cart cart : userLogin.getCartList()) {
+        for (Cart cart : cartList) {
             total += cart.getProduct().getPrice() * cart.getQuantity();
             System.out.println("Sản phẩm:" + "\nid: " + cart.getProduct().getId() + "\nTên: " + cart.getProduct().getProductName() +
                     "\nGiá: " + cart.getProduct().getPrice() + "\nSố lượng: " + cart.getQuantity() +
@@ -49,7 +46,7 @@ public class CartView {
             System.out.println("Nhập vào quantity : ");
             int quantity = InputMethod.getInteger();
             Cart cart = new Cart(product, quantity);
-            cartList.add(cart);
+            cartController.createCart(cart);
             System.out.println(" Thêm vào giỏ hàng thành công.");
         }
 

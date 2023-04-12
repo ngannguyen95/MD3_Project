@@ -59,7 +59,6 @@ public class UserController {
 
     //gửi thông điệp đến frontend
     public Responsemessage login(SignInDTO sign) {
-
         if (userService.checkLogin(sign.getUserName(), sign.getPassword())) {
             System.out.println(userService.checkLogin(sign.getUserName(), sign.getPassword()));
             return new Responsemessage("login_success");
@@ -68,7 +67,6 @@ public class UserController {
             System.out.println(userService.checkLogin(sign.getUserName(), sign.getPassword()));
             return new Responsemessage("login_failed");
         }
-
     }
 
     public User getUserLogin() {

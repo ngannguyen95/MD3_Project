@@ -1,5 +1,6 @@
 package ra.view.user;
 
+import ra.config.Config;
 import ra.config.InputMethod;
 import ra.controller.user.CartController;
 import ra.controller.user.InvoiceController;
@@ -24,42 +25,50 @@ public class InvoiceView {
 
     // xác nhận
     public void confirm() {
-
-        Invoice invoice = new Invoice();
-        if (listAllInvoices.size() == 0) {
-            invoice.setIdInvoice(1);
-        } else {
-            invoice.setIdInvoice(listAllInvoices.get(listAllInvoices.size() - 1).getIdInvoice() + 1);
-        }
-        invoice.setInvoiceUser(userLogin);
-        System.out.println("Nhập vào địa chỉ: ");
-        invoice.setAddress(InputMethod.getString());
-        String phone;
-        while (true) {
-            System.out.println("Số điện thoại : ");
-            phone = InputMethod.getString();
-            if (Validate.checkPhoneNumber(phone)) {
-                break;
+        if (cartList.size() == 0) {
+            System.err.println("Chưa có hàng trong giỏ!!");
+            new Profile().inforCart();
+        }else {
+            Invoice invoice = new Invoice();
+            if (listAllInvoices.size() == 0) {
+                invoice.setIdInvoice(1);
             } else {
-                System.err.println("Số điện thoại không hợp lệ!!");
+                invoice.setIdInvoice(listAllInvoices.get(listAllInvoices.size() - 1).getIdInvoice() + 1);
             }
+            invoice.setUserId(userLogin.getUserId());
+            invoice.setEmail(userLogin.getEmail());
+            invoice.setList(cartList);
+            System.out.println("Nhập vào tên người nhận ");
+            invoice.setReceiveName(InputMethod.getString());
+            System.out.println("Nhập vào địa chỉ: ");
+            invoice.setAddress(InputMethod.getString());
+            String phone;
+            while (true) {
+                System.out.println("Số điện thoại : ");
+                phone = InputMethod.getString();
+                if (Validate.checkPhoneNumber(phone)) {
+                    break;
+                } else {
+                    System.err.println("Số điện thoại không hợp lệ!!");
+                }
+            }
+            invoice.setPhoneNumber(phone);
+            // tính tổng tiền
+            float total = 0;
+            for (Cart cart : cartList) {
+                total += cart.getProduct().getPrice() * cart.getQuantity();
+            }
+            invoice.setTotal(total);
+            // thêm ngày
+            Date date = new Date();
+            String createdDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getYear();
+            invoice.setCreatedDate(createdDate);
+            invoiceController.create(invoice);
+            cartList = new ArrayList<>();
+            userLogin.setCartList(cartList);
+            new UserController().updateUserLogin(userLogin);
+            System.out.println("Thanh toán thành công!!!");
         }
-        System.out.println("Nhập vào số điện thoại: ");
-        invoice.setPhoneNumber(phone);
-        // tính tổng tiền
-        float total = 0;
-        for (Cart cart : cartList) {
-            total += cart.getProduct().getPrice() * cart.getQuantity();
-        }
-        invoice.setTotal(total);
-        // thêm ngày
-        Date date = new Date();
-        String createdDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getYear();
-        invoice.setCreatedDate(createdDate);
-        invoiceController.create(invoice);
-        userLogin.setCartList(new ArrayList<>());
-        new UserController().updateUserLogin(userLogin);
-        System.out.println("Thanh toán thành công!!!");
     }
 
     public void showHistory() {
@@ -67,7 +76,7 @@ public class InvoiceView {
         List<Invoice> invoiceList = invoiceController.findAllByUserLogin();
         for (Invoice invoice : invoiceList) {
             System.out.println("\n----------------" +
-                    "\nTên: " + invoice.getInvoiceUser().getUserName() +
+                    "\nTên: " + invoice.getReceiveName() +
                     "\nĐịa chỉ: " + invoice.getAddress() +
                     "\nSố điện thoại: " + invoice.getPhoneNumber() +
                     "\nThông tin sản phẩm: " + invoice.showListProduct() +
@@ -81,8 +90,8 @@ public class InvoiceView {
     public void showAllInvoices() {
 
         for (Invoice invoice : listAllInvoices) {
-            List<Cart> cartList = invoice.getInvoiceUser().getCartList();
-            System.out.println("Khách hàng: " + invoice.getInvoiceUser().getUserName());
+            List<Cart> cartList = invoice.getList();
+            System.out.println("Khách hàng: " +invoice.getReceiveName());
             System.out.println("Địa chỉ:  " + invoice.getAddress());
             System.out.println("Số điện thoại: " + invoice.getPhoneNumber());
             float total = 0;

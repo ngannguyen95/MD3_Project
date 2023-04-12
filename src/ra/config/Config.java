@@ -54,6 +54,7 @@ public class Config<T> {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config<User>().readFromFile(PATH_USER).get(1).getCartList());
+//        System.out.println(new Config<User>().readFromFile(PATH_USER).get(1).getCartList());
+        System.out.println(new Config<User>().readFromFile(PATH_USER_LOGIN));
     }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 
 public class CartServiceIMPL implements ICartService {
     IUserService userService = new UserServiceIMPL();
-    public static List<User> uses = new UserServiceIMPL().findAll();
-    public static User userLogin = new UserServiceIMPL().getCurrentUser();
+    public  List<User> uses = new UserServiceIMPL().findAll();
+    public  User userLogin = new UserServiceIMPL().getCurrentUser();
      List<Cart> cartList = userLogin.getCartList();
 
     @Override
@@ -28,11 +28,15 @@ public class CartServiceIMPL implements ICartService {
         for (int i = 0; i < cartList.size(); i++) {
             if (cartList.get(i).getProduct().getId() == cart.getProduct().getId()) {
                 cartList.get(i).setQuantity((cart.getQuantity() + cartList.get(i).getQuantity()));
+                break;
             }
         }
         cartList.add(cart);
         userLogin.setCartList(cartList);
-        new Config<User>().writerFile(Config.PATH_USER_LOGIN, uses);
+        List<User> list = new ArrayList<>();
+        list.add(userLogin);
+        new Config<User>().writerFile(Config.PATH_USER_LOGIN, list);
+//        new Config<User>().writerFile(Config.PATH_USER_LOGIN, uses);
         new Config<User>().writerFile(Config.PATH_USER, uses);
     }
 
@@ -53,8 +57,11 @@ public class CartServiceIMPL implements ICartService {
             if (cart.getProduct().getId() == id) {
                 cartList.remove(cart);
                 userLogin.setCartList(cartList);
-                new Config<User>().writerFile(Config.PATH_USER_LOGIN, uses);
+                List<User> list = new ArrayList<>();
+                list.add(userLogin);
+                new Config<User>().writerFile(Config.PATH_USER_LOGIN, list);
                 new Config<User>().writerFile(Config.PATH_USER, uses);
+                break;
             }
         }
     }
