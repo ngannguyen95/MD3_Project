@@ -18,7 +18,6 @@ public class Profile {
     Set<Role> roleSet = user.getRoles();
     List<Role> roleList = new ArrayList<>(roleSet);
 
-
     public void Profile() {
         if (roleList.get(0).getName() == RoleName.ADMIN) {
             new AdminPage().AdminPage();
@@ -40,6 +39,7 @@ public class Profile {
                         break;
                     case 3:
                         //lịch sử
+                        new InvoiceView().showHistory();
                         break;
                     case 4:
                         new UserView().logOut();
@@ -50,7 +50,6 @@ public class Profile {
                 }
             }
         }
-
     }
 
     public void inforUser() {
@@ -59,13 +58,13 @@ public class Profile {
             System.out.print("1.Thông tin cá nhân     ");
             System.out.print("2.Thay đổi thông tin cá nhân    ");
             System.out.println("3.Quay lại trang cá nhân  ");
+            System.out.println("4. Lịch sử mua hàng ");
             System.out.println("Nhập vào lựa chọn: ");
             int choice = InputMethod.getInteger();
             switch (choice) {
                 case 1:
                     System.out.println("------  Thông tin cá nhân -------");
                     System.out.println(user);
-//                    new UserView().showUseLogin();
                     break;
                 case 2:
                     new UserView().updateFormUser();
@@ -73,6 +72,9 @@ public class Profile {
                     break;
                 case 3:
                     Profile();
+                    break;
+                case 4:
+                    new InvoiceView().showHistory();
                     break;
                 default:
                     System.err.println("Vui lòng nhập lại!!!");
@@ -84,10 +86,10 @@ public class Profile {
     public void inforCart() {
         while (true) {
             System.out.println("-------------- Giỏ hàng --------------");
-            System.out.print("1.Thêm vào giỏ hàng    ");
+            System.out.print("1.Thêm vào giỏ hàng   ");
             System.out.print("2.Xem giỏ hàng     ");
-            System.out.print("3.Thanh toán   ");
-            System.out.println("3.Quay lại trang cá nhân ");
+            System.out.print("3.Thanh toán  ");
+            System.out.println("4.Quay lại trang cá nhân ");
             System.out.println("Nhập vào lựa chọn: ");
             int choice = InputMethod.getInteger();
             switch (choice) {
@@ -98,6 +100,10 @@ public class Profile {
                     new CartView().showFormCart();
                     break;
                 case 3:
+                    //thanh toán
+                    new InvoiceView().confirm();
+                    break;
+                case 4:
                     Profile();
                     break;
                 default:
@@ -106,5 +112,4 @@ public class Profile {
             }
         }
     }
-
 }

@@ -39,7 +39,7 @@ public class ProductView {
                     formDeleteProduct();
                     break;
                 case 5:
-                    new AdminPage();
+                    new AdminPage().AdminPage();
                 default:
                     System.out.println("Vui lòng nhập lại!!!");
                     break;

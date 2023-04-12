@@ -25,5 +25,8 @@ public class CartController {
     public void deleteCart(int id){
         cartService.deleteById(id);
     }
+    public void deleteCartAll(){
+        cartService.deleteAllCart();
+    }
 
 }

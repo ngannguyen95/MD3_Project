@@ -205,7 +205,7 @@ public class UserView {
             }
         }
     }
-    public User showUseLogin(){
+    public User getUseLogin(){
         return userController.getUserLogin();
     }
 }

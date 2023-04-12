@@ -11,8 +11,6 @@ import java.util.List;
 public class AdminPage {
     UserController userController = new UserController();
 
-
-
     public void AdminPage() {
         while (true) {
             System.out.println("-------------------- ADMIN ----------------------");

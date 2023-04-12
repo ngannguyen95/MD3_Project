@@ -1,5 +1,7 @@
 package ra.config;
 
+import ra.model.User;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ public class Config<T> {
     public static final String PATH_USER = "src/ra/database/user.txt";
     public static final String PATH_USER_LOGIN = "src/ra/database/user_login.txt";
     public static final String PATH_INVOICE="src/ra/database/invoice.txt";
+    public static final String PATH_INVOICE_HISTORY="src/ra/database/invoice_history.txt";
 
     // phương thức đọc file
     public List<T> readFromFile(String pathFile) {
@@ -48,5 +51,9 @@ public class Config<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Config<User>().readFromFile(PATH_USER).get(1).getCartList());
     }
 }

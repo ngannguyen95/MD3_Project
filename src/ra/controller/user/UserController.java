@@ -42,6 +42,7 @@ public class UserController {
                     break;
                 default:
                     roleSet.add(roleService.findByAll(RoleName.USER));
+                    break;
 
             }
         });
